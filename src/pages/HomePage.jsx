@@ -12,12 +12,42 @@ export default function HomePage() {
   const navigate              = useNavigate()
   const { nearbyTheatres, locationName } = useLocation()
 
-  useEffect(() => {
-    moviesAPI.getNowShowing()
-      .then(res => setMovies(res.data.movies || []))
-      .catch(() => setMovies([]))
-      .finally(() => setLoading(false))
-  }, [])
+  const FALLBACK_MOVIES = [
+  { _id:'1', title:'Karuppu', genre:['Action','Thriller'], language:'Tamil', duration:165, year:2026, rating:{ tmdb:8.2 } },
+  { _id:'2', title:'Jananayagan', genre:['Political Drama'], language:'Tamil', duration:180, year:2026, rating:{ tmdb:8.7 } },
+  { _id:'3', title:'Mankatha', genre:['Crime','Thriller'], language:'Tamil', duration:158, year:2011, rating:{ tmdb:8.5 } },
+  { _id:'4', title:'Vallavan', genre:['Romance','Action'], language:'Tamil', duration:163, year:2006, rating:{ tmdb:7.8 } }
+]
+
+const FALLBACK_THEATRES = [
+  { _id:'t1', name:'LA Cinema', address:{ full:'#12, Salai Rd, Srirangam, Trichy' }, amenities:['Dolby Atmos','4K Laser'], location:{ coordinates:[78.6930,10.8651] }, rating:4.6, emoji:'🎬', gradient:'linear-gradient(135deg,#1A0505,#2D0808)', distance:2.1 },
+  { _id:'t2', name:'Ramba Theatre', address:{ full:'#78, Anna Salai, Cantonment, Trichy' }, amenities:['Dolby Digital','HD Screen'], location:{ coordinates:[78.6856,10.8050] }, rating:4.2, emoji:'🎭', gradient:'linear-gradient(135deg,#050A1A,#080D2D)', distance:3.5 },
+  { _id:'t3', name:'Sona Mina', address:{ full:'#45, Bharathidasan Rd, Woraiyur, Trichy' }, amenities:['3D Enabled','Snack Bar'], location:{ coordinates:[78.7130,10.7905] }, rating:4.0, emoji:'⭐', gradient:'linear-gradient(135deg,#1A1505,#2D2008)', distance:4.2 },
+  { _id:'t4', name:'Kalaiarangam', address:{ full:'Teppakulam, Trichy' }, amenities:['Large Screen','AC Hall'], location:{ coordinates:[78.6957,10.8100] }, rating:3.9, emoji:'🏛️', gradient:'linear-gradient(135deg,#0A1505,#0D2008)', distance:5.1 },
+  { _id:'t5', name:'Cauvery Theatre', address:{ full:'#23, Mettu St, K.K. Nagar, Trichy' }, amenities:['Dolby Sound','Premium Seats'], location:{ coordinates:[78.7052,10.8215] }, rating:4.4, emoji:'🌊', gradient:'linear-gradient(135deg,#05151A,#08202D)', distance:6.3 }
+]
+
+const FALLBACK_MOVIES = [
+  { _id:'1', title:'Karuppu', genre:['Action','Thriller'], language:'Tamil', duration:165, year:2026, rating:{ tmdb:8.2 } },
+  { _id:'2', title:'Jananayagan', genre:['Political Drama'], language:'Tamil', duration:180, year:2026, rating:{ tmdb:8.7 } },
+  { _id:'3', title:'Mankatha', genre:['Crime','Thriller'], language:'Tamil', duration:158, year:2011, rating:{ tmdb:8.5 } },
+  { _id:'4', title:'Vallavan', genre:['Romance','Action'], language:'Tamil', duration:163, year:2006, rating:{ tmdb:7.8 } }
+]
+
+const FALLBACK_THEATRES = [
+  { _id:'t1', name:'LA Cinema', address:{ full:'#12, Salai Rd, Srirangam, Trichy' }, amenities:['Dolby Atmos','4K Laser'], location:{ coordinates:[78.6930,10.8651] }, rating:4.6, emoji:'🎬', gradient:'linear-gradient(135deg,#1A0505,#2D0808)', distance:2.1 },
+  { _id:'t2', name:'Ramba Theatre', address:{ full:'#78, Anna Salai, Cantonment, Trichy' }, amenities:['Dolby Digital','HD Screen'], location:{ coordinates:[78.6856,10.8050] }, rating:4.2, emoji:'🎭', gradient:'linear-gradient(135deg,#050A1A,#080D2D)', distance:3.5 },
+  { _id:'t3', name:'Sona Mina', address:{ full:'#45, Bharathidasan Rd, Woraiyur, Trichy' }, amenities:['3D Enabled','Snack Bar'], location:{ coordinates:[78.7130,10.7905] }, rating:4.0, emoji:'⭐', gradient:'linear-gradient(135deg,#1A1505,#2D2008)', distance:4.2 },
+  { _id:'t4', name:'Kalaiarangam', address:{ full:'Teppakulam, Trichy' }, amenities:['Large Screen','AC Hall'], location:{ coordinates:[78.6957,10.8100] }, rating:3.9, emoji:'🏛️', gradient:'linear-gradient(135deg,#0A1505,#0D2008)', distance:5.1 },
+  { _id:'t5', name:'Cauvery Theatre', address:{ full:'#23, Mettu St, K.K. Nagar, Trichy' }, amenities:['Dolby Sound','Premium Seats'], location:{ coordinates:[78.7052,10.8215] }, rating:4.4, emoji:'🌊', gradient:'linear-gradient(135deg,#05151A,#08202D)', distance:6.3 }
+]
+
+useEffect(() => {
+  moviesAPI.getNowShowing()
+    .then(res => setMovies(res.data.movies?.length ? res.data.movies : FALLBACK_MOVIES))
+    .catch(() => setMovies(FALLBACK_MOVIES))
+    .finally(() => setLoading(false))
+}, [])
 
   // Parallax on hero
   useEffect(() => {
@@ -114,7 +144,7 @@ export default function HomePage() {
           <p style={{ color:'#A0A0B0', fontSize:'1rem', marginTop:'.75rem', fontWeight:300 }}>Premium cinema halls across Trichy district, sorted by proximity</p>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:'1.5rem' }}>
-          {nearbyTheatres.slice(0, 4).map(t => (
+          {(nearbyTheatres.length ? nearbyTheatres : FALLBACK_THEATRES).slice(0, 4).map(t => (
             <TheatreCard key={t._id} theatre={t} onSelectTime={(th, time) => navigate(`/theatres`)} />
           ))}
         </div>
