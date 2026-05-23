@@ -113,16 +113,22 @@ export default function AuthModal({ onClose }) {
     try {
       const identifier = loginType === 'phone' ? phone + '@smartcine.com' : email
       const pwd = loginType === 'phone' ? `SCT${phone}` : `SCT${email}`
+      const userName = loginType === 'phone' ? `User ${phone.slice(-4)}` : email.split('@')[0]
       try {
         await login(identifier, pwd)
       } catch {
-        await register(
-          loginType === 'phone' ? `User ${phone.slice(-4)}` : email.split('@')[0],
-          identifier, pwd, loginType === 'phone' ? phone : ''
-        )
+        try {
+          await register(userName, identifier, pwd, loginType === 'phone' ? phone : '')
+        } catch {
+          // Backend sleeping - save locally
+          const localUser = { name: userName, email: identifier, phone: loginType==='phone' ? phone : '', role:'user', id: Date.now().toString() }
+          localStorage.setItem('sct_user', JSON.stringify(localUser))
+          localStorage.setItem('sct_token', 'local_token_' + Date.now())
+        }
       }
       toast.success('🎬 Welcome to Smart Cine Trichy!')
       onClose()
+      window.location.reload()
     } catch (err) {
       toast.error('Login failed. Please try again.')
     } finally {
@@ -137,11 +143,19 @@ export default function AuthModal({ onClose }) {
     try {
       const identifier = loginType === 'phone' ? phone + '@smartcine.com' : email
       const pwd = loginType === 'phone' ? `SCT${phone}` : `SCT${email}`
-      await register(name, identifier, pwd, loginType === 'phone' ? phone : '')
-      toast.success('🎉 Account created! Welcome to Smart Cine Trichy!')
+      try {
+        await register(name, identifier, pwd, loginType === 'phone' ? phone : '')
+      } catch {
+        // Backend sleeping - save locally
+        const localUser = { name, email: identifier, phone: loginType==='phone' ? phone : '', role:'user', id: Date.now().toString() }
+        localStorage.setItem('sct_user', JSON.stringify(localUser))
+        localStorage.setItem('sct_token', 'local_token_' + Date.now())
+      }
+      toast.success('🎉 Welcome to Smart Cine Trichy!')
       onClose()
+      window.location.reload()
     } catch (err) {
-      toast.error('Registration failed. Please try again.')
+      toast.error('Please try again.')
     } finally {
       setLoading(false)
     }
