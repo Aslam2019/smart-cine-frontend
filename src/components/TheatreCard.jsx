@@ -7,11 +7,11 @@ import { useState } from 'react'
 // Paste between the quotes below
 // ══════════════════════════════════════════
 const THEATRE_IMAGES = {
-  'LA Cinema':       '',
-  'Ramba Theatre':   '',
-  'Sona Mina':       '',
-  'Kalaiarangam':    '',
-  'Cauvery Theatre': ''
+  'LA Cinema':       'https://plus.unsplash.com/premium_photo-1726848094123-b69f8c83b824?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2luZW1hJTIwdGhlYXRyZSUyMG5pZ2h0fGVufDB8fDB8fHww',
+  'Ramba Theatre':   'https://plus.unsplash.com/premium_photo-1709594070896-fc3869d4dcd6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNpbmVtYSUyMHRoZWF0cmUlMjBuaWdodHxlbnwwfHwwfHx8MA%3D%3D',
+  'Sona Mina':       'https://images.unsplash.com/photo-1604975701397-6365ccbd028a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2luZW1hJTIwdGhlYXRyZSUyMG5pZ2h0fGVufDB8fDB8fHww',
+  'Kalaiarangam':    'https://images.unsplash.com/photo-1635400138431-0bbde4d01484?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  'Cauvery Theatre': 'https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2luZW1hJTIwdGhlYXRyZSUyMG5pZ2h0fGVufDB8fDB8fHww'
 }
 
 // Beautiful CSS cinema visuals for each theatre
