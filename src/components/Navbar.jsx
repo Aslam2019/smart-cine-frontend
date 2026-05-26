@@ -20,13 +20,13 @@ export default function Navbar() {
   // Close menu on route change
   useEffect(() => { setMenuOpen(false) }, [location])
 
-  const navLinks = [
-    { label: 'Home',     to: '/' },
-    { label: 'Movies',   to: '/movies' },
-    { label: 'Theatres', to: '/theatres' },
-    { label: 'Profile',  to: '/profile' },
-    ...(user?.role === 'admin' ? [{ label: 'Admin', to: '/admin' }] : [])
-  ]
+ const navLinks = [
+  { label: 'Home',     to: '/' },
+  { label: 'Movies',   to: '/movies' },
+  { label: 'Theatres', to: '/theatres' },
+  { label: 'Profile',  to: '/profile' },
+  { label: 'Admin',    to: '/admin' },
+]
 
   const isActive = (to) =>
     to === '/' ? location.pathname === '/' : location.pathname.startsWith(to)
